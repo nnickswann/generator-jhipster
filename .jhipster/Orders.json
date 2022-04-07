@@ -1,0 +1,36 @@
+{
+  "applications": "*",
+  "changelogDate": "20220407153359",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "orders",
+  "fields": [
+    {
+      "fieldName": "id",
+      "fieldType": "Identifier"
+    },
+    {
+      "fieldName": "userId",
+      "fieldType": "Identifier"
+    },
+    {
+      "fieldName": "productId",
+      "fieldType": "Identifier"
+    },
+    {
+      "fieldName": "total",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "quantity",
+      "fieldType": "Double"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Orders",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "no"
+}

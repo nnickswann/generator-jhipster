@@ -1,0 +1,22 @@
+entity People {
+	id Identifier,
+    address String,
+    email String,
+    password String,
+    name String
+}
+
+entity Orders{
+	id Identifier,
+    userId Identifier,
+    productId Identifier,
+    total Double,
+    quantity Double
+}    
+
+entity Products {
+	id Identifier,
+    title String,
+    category String,
+    price Double
+}
