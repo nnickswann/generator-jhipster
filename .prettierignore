@@ -1,9 +1,8 @@
 node_modules
-docs
+target
+build
+package-lock.json
 .git
-test/jdl/**/.jhipster/**
-.vscode
-**/templates/**/
-**/jdl-core.min.js
-**/generated-serialized-grammar.js
-test/fixtures/**
+.mvn
+gradle
+.gradle

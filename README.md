@@ -1,148 +1,271 @@
-[![Logo][jhipster-image]][jhipster-url]
+# ForInterviewLiga
 
-[![NPM version][npm-image]][npm-url] [![Downloads][npmcharts-image]][npmcharts-url] [![Gitter][gitter-badge-image]][gitter-badge-url] [![Known Vulnerabilities][snyk-image]][snyk-url]
+This application was generated using JHipster 7.8.1, you can find documentation and help at [https://www.jhipster.tech](https://www.jhipster.tech).
 
-[![Generator Build Status][github-actions-generator-image]][github-actions-url] [![Angular Build Status][github-actions-angular-image]][github-actions-url] [![React Build Status][github-actions-react-image]][github-actions-url] [![Vue Build Status][github-actions-vue-image]][github-actions-url] [![Revved up by Gradle Enterprise](https://img.shields.io/badge/Revved%20up%20by-Gradle%20Enterprise-06A0CE?logo=Gradle&labelColor=02303A)](https://ge.jhipster.tech/scans)
+## Project Structure
 
-Greetings, Java Hipster!
+Node is required for generation and recommended for development. `package.json` is always generated for a better development experience with prettier, commit hooks, scripts and so on.
 
-Full documentation and information is available on our website at [https://www.jhipster.tech/][jhipster-url]
+In the project root, JHipster generates configuration files for tools like git, prettier, eslint, husk, and others that are well known and you can find references in the web.
 
-Please read our [guidelines](/CONTRIBUTING.md#submitting-an-issue) before submitting an issue. If your issue is a bug, please use the bug template pre-populated [here][issue-template]. For feature requests and queries you can use [this template][feature-template]. If you have found a potential security issue, please read our security policy and contact us privately first: https://github.com/jhipster/generator-jhipster/security/policy
+`/src/*` structure follows default Java structure.
 
-## Contributing
+- `.yo-rc.json` - Yeoman configuration file
+  JHipster configuration is stored in this file at `generator-jhipster` key. You may find `generator-jhipster-*` for specific blueprints configuration.
+- `.yo-resolve` (optional) - Yeoman conflict resolver
+  Allows to use a specific action when conflicts are found skipping prompts for files that matches a pattern. Each line should match `[pattern] [action]` with pattern been a [Minimatch](https://github.com/isaacs/minimatch#minimatch) pattern and action been one of skip (default if ommited) or force. Lines starting with `#` are considered comments and are ignored.
+- `.jhipster/*.json` - JHipster entity configuration files
+- `/src/main/docker` - Docker configurations for the application and services that the application depends on
 
-We are honoured by any contributions you may have small or large. Please refer to our [contribution guidelines and instructions document](https://github.com/jhipster/generator-jhipster/blob/main/CONTRIBUTING.md) for any information about contributing to the project.
+## Development
 
-## Sponsors
+To start your application in the dev profile, run:
 
-Support this project by becoming a sponsor! [Become a sponsor](https://opencollective.com/generator-jhipster) or [learn more about sponsoring the project](https://www.jhipster.tech/sponsors/).
+```
+./gradlew
+```
 
-**Thank you to our sponsors!**
+For further instructions on how to develop with JHipster, have a look at [Using JHipster in development][].
 
-### Platinum Sponsors
+### JHipster Control Center
 
-<table>
-  <tbody>
-    <tr>
-      <td align="center" valign="middle">
-        <a href="https://developer.okta.com/signup?utm_source=JHipster&utm_medium=logo&utm_campaign=Platinum-Sponsor" target="_blank">
-          <img width="425em" src="https://www.jhipster.tech/images/open-collective/okta.png">
-        </a>
-      </td>
-    </tr>
-  </tbody>
-</table>
+JHipster Control Center can help you manage and control your application(s). You can start a local control center server (accessible on http://localhost:7419) with:
 
-### Gold Sponsors
+```
+docker-compose -f src/main/docker/jhipster-control-center.yml up
+```
 
-<table>
-  <tbody>
-    <tr>
-      <td align="center" valign="middle">
-        <a href="http://www.octoconsulting.com/" target="_blank">
-          <img width="200em" src="https://www.jhipster.tech/images/open-collective/octoconsulting.png">
-        </a>
-      </td>
-      <td align="center" valign="middle">
-        <a href="https://dev.entando.org/jhipster" target="_blank">
-          <img width="200em" src="https://www.jhipster.tech/images/open-collective/entandoe.png">
-        </a>
-      </td>
-      <td align="center" valign="middle">
-        <a href="https://www.datastax.com/" target="_blank">
-          <img width="200em" src="https://www.jhipster.tech/images/open-collective/datastax.png">
-        </a>
-      </td>
-    </tr>
-  </tbody>
-</table>
+### OAuth 2.0 / OpenID Connect
 
-### Bronze sponsors
+Congratulations! You've selected an excellent way to secure your JHipster application. If you're not sure what OAuth and OpenID Connect (OIDC) are, please see [What the Heck is OAuth?](https://developer.okta.com/blog/2017/06/21/what-the-heck-is-oauth)
 
-[![BronzeSponsors][bronze-sponsors-image]][bronze-sponsors-url]
+To log in to your app, you'll need to have [Keycloak](https://keycloak.org) up and running. The JHipster Team has created a Docker container for you that has the default users and roles. Start Keycloak using the following command.
 
-### Backers
+```
+docker-compose -f src/main/docker/keycloak.yml up
+```
 
-**Thank you to all our backers!**
+The security settings in `src/main/resources/config/application.yml` are configured for this image.
 
-[![Backers][backers-image]][backers-url]
+```yaml
+spring:
+  ...
+  security:
+    oauth2:
+      client:
+        provider:
+          oidc:
+            issuer-uri: http://localhost:9080/auth/realms/jhipster
+        registration:
+          oidc:
+            client-id: web_app
+            client-secret: web_app
+            scope: openid,profile,email
+```
 
-<object data="https://opencollective.com/generator-jhipster/tiers/backer.svg?avatarHeight=40&width=890&button=false" type="image/svg+xml"></object>
+### Okta
 
-## Azure Builds
+If you'd like to use Okta instead of Keycloak, it's pretty quick using the [Okta CLI](https://cli.okta.com/). After you've installed it, run:
 
-Additional builds at [hipster-labs/jhipster-daily-builds](https://github.com/hipster-labs/jhipster-daily-builds)
+```shell
+okta register
+```
 
-| Pipeline Status                                                        |
-| :--------------------------------------------------------------------- |
-| [![Angular Maven SQL][github-angular-maven-sql]][github-actions]       |
-| [![Angular Maven NoSQL][github-angular-maven-nosql]][github-actions]   |
-| [![Angular Gradle SQL][github-angular-gradle-sql]][github-actions]     |
-| [![Angular Gradle NoSQL][github-angular-gradle-nosql]][github-actions] |
-| [![React Maven SQL][github-react-maven-sql]][github-actions]           |
-| [![React Maven NoSQL][github-react-maven-nosql]][github-actions]       |
-| [![React Gradle SQL][github-react-gradle-sql]][github-actions]         |
-| [![React Gradle NoSQL][github-react-gradle-nosql]][github-actions]     |
-| [![Vue Maven SQL][github-vue-maven-sql]][github-actions]               |
-| [![Vue Maven NoSQL][github-vue-maven-nosql]][github-actions]           |
-| [![Vue Gradle SQL][github-vue-gradle-sql]][github-actions]             |
-| [![Vue Gradle NoSQL][github-vue-gradle-nosql]][github-actions]         |
-| [![Elasticsearch][github-elasticsearch]][github-actions]               |
-| [![Monolith OAuth2][github-monolith-oauth2]][github-actions]           |
-| [![No Database][github-no-database]][github-actions]                   |
-| [![Microservices JWT][github-ms-jwt]][github-actions]                  |
-| [![Microservices OAuth2][github-ms-oauth2]][github-actions]            |
-| [![Docker Image][github-docker-image]][github-actions]                 |
-| [![Official Windows][github-official-windows]][github-actions]         |
+Then, in your JHipster app's directory, run `okta apps create` and select **JHipster**. This will set up an Okta app for you, create `ROLE_ADMIN` and `ROLE_USER` groups, create a `.okta.env` file with your Okta settings, and configure a `groups` claim in your ID token.
 
-## Analysis of the sample JHipster project
+Run `source .okta.env` and start your app with Maven or Gradle. You should be able to sign in with the credentials you registered with.
 
-[![sonar-quality-gate][sonar-quality-gate]][sonar-url] [![sonar-coverage][sonar-coverage]][sonar-url] [![sonar-bugs][sonar-bugs]][sonar-url] [![sonar-vulnerabilities][sonar-vulnerabilities]][sonar-url]
+If you're on Windows, you should install [WSL](https://docs.microsoft.com/en-us/windows/wsl/install-win10) so the `source` command will work.
 
-[github-actions]: https://github.com/hipster-labs/jhipster-daily-builds/actions
-[github-official-windows]: https://github.com/hipster-labs/jhipster-daily-builds/workflows/Official%20Windows/badge.svg
-[github-angular-maven-sql]: https://github.com/hipster-labs/jhipster-daily-builds/workflows/Angular%20Maven%20SQL/badge.svg
-[github-angular-maven-nosql]: https://github.com/hipster-labs/jhipster-daily-builds/workflows/Angular%20Maven%20NoSQL/badge.svg
-[github-angular-gradle-sql]: https://github.com/hipster-labs/jhipster-daily-builds/workflows/Angular%20Gradle%20SQL/badge.svg
-[github-angular-gradle-nosql]: https://github.com/hipster-labs/jhipster-daily-builds/workflows/Angular%20Gradle%20NoSQL/badge.svg
-[github-react-maven-sql]: https://github.com/hipster-labs/jhipster-daily-builds/workflows/React%20Maven%20SQL/badge.svg
-[github-react-maven-nosql]: https://github.com/hipster-labs/jhipster-daily-builds/workflows/React%20Maven%20NoSQL/badge.svg
-[github-react-gradle-sql]: https://github.com/hipster-labs/jhipster-daily-builds/workflows/React%20Gradle%20SQL/badge.svg
-[github-react-gradle-nosql]: https://github.com/hipster-labs/jhipster-daily-builds/workflows/React%20Gradle%20NoSQL/badge.svg
-[github-vue-maven-sql]: https://github.com/hipster-labs/jhipster-daily-builds/workflows/Vue%20Maven%20SQL/badge.svg
-[github-vue-maven-nosql]: https://github.com/hipster-labs/jhipster-daily-builds/workflows/Vue%20Maven%20NoSQL/badge.svg
-[github-vue-gradle-sql]: https://github.com/hipster-labs/jhipster-daily-builds/workflows/Vue%20Gradle%20SQL/badge.svg
-[github-vue-gradle-nosql]: https://github.com/hipster-labs/jhipster-daily-builds/workflows/Vue%20Gradle%20NoSQL/badge.svg
-[github-elasticsearch]: https://github.com/hipster-labs/jhipster-daily-builds/workflows/Elasticsearch/badge.svg
-[github-monolith-oauth2]: https://github.com/hipster-labs/jhipster-daily-builds/workflows/Monolith%20OAuth%202.0/badge.svg
-[github-no-database]: https://github.com/hipster-labs/jhipster-daily-builds/workflows/No%20Database/badge.svg
-[github-ms-jwt]: https://github.com/hipster-labs/jhipster-daily-builds/workflows/Microservices%20JWT/badge.svg
-[github-ms-oauth2]: https://github.com/hipster-labs/jhipster-daily-builds/workflows/Microservices%20OAuth%202.0/badge.svg
-[github-docker-image]: https://github.com/hipster-labs/jhipster-daily-builds/workflows/Docker%20Image/badge.svg
-[sonar-url]: https://sonarcloud.io/dashboard?id=jhipster-sample-application
-[sonar-quality-gate]: https://sonarcloud.io/api/project_badges/measure?project=jhipster-sample-application&metric=alert_status
-[sonar-coverage]: https://sonarcloud.io/api/project_badges/measure?project=jhipster-sample-application&metric=coverage
-[sonar-bugs]: https://sonarcloud.io/api/project_badges/measure?project=jhipster-sample-application&metric=bugs
-[sonar-vulnerabilities]: https://sonarcloud.io/api/project_badges/measure?project=jhipster-sample-application&metric=vulnerabilities
-[jhipster-image]: https://raw.githubusercontent.com/jhipster/jhipster-artwork/main/logos/v2/normal/V2%20JHipster%20RGB.png
-[jhipster-url]: https://www.jhipster.tech/
-[npm-image]: https://badge.fury.io/js/generator-jhipster.svg
-[npm-url]: https://npmjs.org/package/generator-jhipster
-[github-actions-generator-image]: https://github.com/jhipster/generator-jhipster/workflows/Generator/badge.svg
-[github-actions-angular-image]: https://github.com/jhipster/generator-jhipster/workflows/Angular/badge.svg
-[github-actions-react-image]: https://github.com/jhipster/generator-jhipster/workflows/React/badge.svg
-[github-actions-vue-image]: https://github.com/jhipster/generator-jhipster/workflows/Vue/badge.svg
-[github-actions-url]: https://github.com/jhipster/generator-jhipster/actions
-[backers-image]: https://opencollective.com/generator-jhipster/tiers/backer.svg?avatarHeight=70&width=890
-[backers-url]: https://opencollective.com/generator-jhipster
-[bronze-sponsors-image]: https://opencollective.com/generator-jhipster/tiers/bronze-sponsor.svg?avatarHeight=120&width=890
-[bronze-sponsors-url]: https://opencollective.com/generator-jhipster
-[issue-template]: https://github.com/jhipster/generator-jhipster/issues/new?template=BUG_REPORT.md
-[feature-template]: https://github.com/jhipster/generator-jhipster/issues/new?template=FEATURE_REQUEST.md
-[npmcharts-image]: https://img.shields.io/npm/dm/generator-jhipster.svg?label=Downloads&style=flat
-[npmcharts-url]: https://npmcharts.com/compare/generator-jhipster
-[gitter-badge-image]: https://badges.gitter.im/jhipster/generator-jhipster.svg
-[gitter-badge-url]: https://gitter.im/jhipster/generator-jhipster?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge
-[snyk-image]: https://snyk.io/test/npm/generator-jhipster/badge.svg
-[snyk-url]: https://snyk.io/test/npm/generator-jhipster
+If you'd like to configure things manually through the Okta developer console, see the instructions below.
+
+First, you'll need to create a free developer account at <https://developer.okta.com/signup/>. After doing so, you'll get your own Okta domain, that has a name like `https://dev-123456.okta.com`.
+
+Modify `src/main/resources/config/application.yml` to use your Okta settings.
+
+```yaml
+spring:
+  ...
+  security:
+    oauth2:
+      client:
+        provider:
+          oidc:
+            issuer-uri: https://{yourOktaDomain}/oauth2/default
+        registration:
+          oidc:
+            client-id: {clientId}
+            client-secret: {clientSecret}
+security:
+```
+
+Create an OIDC App in Okta to get a `{clientId}` and `{clientSecret}`. To do this, log in to your Okta Developer account and navigate to **Applications** > **Add Application**. Click **Web** and click the **Next** button. Give the app a name you’ll remember, specify `http://localhost:8080` as a Base URI, and `http://localhost:8080/login/oauth2/code/oidc` as a Login Redirect URI. Click **Done**, then Edit and add `http://localhost:8080` as a Logout redirect URI. Copy and paste the client ID and secret into your `application.yml` file.
+
+Create a `ROLE_ADMIN` and `ROLE_USER` group and add users into them. Modify e2e tests to use this account when running integration tests. You'll need to change credentials in `src/test/javascript/e2e/account/account.spec.ts` and `src/test/javascript/e2e/admin/administration.spec.ts`.
+
+Navigate to **API** > **Authorization Servers**, click the **Authorization Servers** tab and edit the default one. Click the **Claims** tab and **Add Claim**. Name it "groups", and include it in the ID Token. Set the value type to "Groups" and set the filter to be a Regex of `.*`.
+
+After making these changes, you should be good to go! If you have any issues, please post them to [Stack Overflow](https://stackoverflow.com/questions/tagged/jhipster). Make sure to tag your question with "jhipster" and "okta".
+
+### Auth0
+
+If you'd like to use [Auth0](https://auth0.com/) instead of Keycloak, follow the configuration steps below:
+
+- Create a free developer account at <https://auth0.com/signup>. After successful sign-up, your account will be associated with a unique domain like `dev-xxx.us.auth0.com`
+- Create a new application of type `Regular Web Applications`. Switch to the `Settings` tab, and configure your application settings like:
+  - Allowed Callback URLs: `http://localhost:8080/login/oauth2/code/oidc`
+  - Allowed Logout URLs: `http://localhost:8080/`
+- Navigate to **User Management** > **Roles** and create new roles named `ROLE_ADMIN`, and `ROLE_USER`.
+- Navigate to **User Management** > **Users** and create a new user account. Click on the **Role** tab to assign roles to the newly created user account.
+- Navigate to **Auth Pipeline** > **Rules** and create a new Rule. Choose `Empty rule` template. Provide a meaningful name like `JHipster claims` and replace `Script` content with the following and Save.
+
+```javascript
+function (user, context, callback) {
+  user.preferred_username = user.email;
+  const roles = (context.authorization || {}).roles;
+
+  function prepareCustomClaimKey(claim) {
+    return `https://www.jhipster.tech/${claim}`;
+  }
+
+  const rolesClaim = prepareCustomClaimKey('roles');
+
+  if (context.idToken) {
+    context.idToken[rolesClaim] = roles;
+  }
+
+  if (context.accessToken) {
+    context.accessToken[rolesClaim] = roles;
+  }
+
+  callback(null, user, context);
+}
+```
+
+- In your `JHipster` application, modify `src/main/resources/config/application.yml` to use your Auth0 application settings:
+
+```yaml
+spring:
+  ...
+  security:
+    oauth2:
+      client:
+        provider:
+          oidc:
+            # make sure to include the ending slash!
+            issuer-uri: https://{your-auth0-domain}/
+        registration:
+          oidc:
+            client-id: {clientId}
+            client-secret: {clientSecret}
+            scope: openid,profile,email
+jhipster:
+  ...
+  security:
+    oauth2:
+      audience:
+        - https://{your-auth0-domain}/api/v2/
+```
+
+## Building for production
+
+### Packaging as jar
+
+To build the final jar and optimize the ForInterviewLiga application for production, run:
+
+```
+./gradlew -Pprod clean bootJar
+```
+
+To ensure everything worked, run:
+
+```
+java -jar build/libs/*.jar
+```
+
+Refer to [Using JHipster in production][] for more details.
+
+### Packaging as war
+
+To package your application as a war in order to deploy it to an application server, run:
+
+```
+./gradlew -Pprod -Pwar clean bootWar
+```
+
+## Testing
+
+To launch your application's tests, run:
+
+```
+./gradlew test integrationTest jacocoTestReport
+```
+
+For more information, refer to the [Running tests page][].
+
+### Code quality
+
+Sonar is used to analyse code quality. You can start a local Sonar server (accessible on http://localhost:9001) with:
+
+```
+docker-compose -f src/main/docker/sonar.yml up -d
+```
+
+Note: we have turned off authentication in [src/main/docker/sonar.yml](src/main/docker/sonar.yml) for out of the box experience while trying out SonarQube, for real use cases turn it back on.
+
+You can run a Sonar analysis with using the [sonar-scanner](https://docs.sonarqube.org/display/SCAN/Analyzing+with+SonarQube+Scanner) or by using the gradle plugin.
+
+Then, run a Sonar analysis:
+
+```
+./gradlew -Pprod clean check jacocoTestReport sonarqube
+```
+
+For more information, refer to the [Code quality page][].
+
+## Using Docker to simplify development (optional)
+
+You can use Docker to improve your JHipster development experience. A number of docker-compose configuration are available in the [src/main/docker](src/main/docker) folder to launch required third party services.
+
+For example, to start a mariadb database in a docker container, run:
+
+```
+docker-compose -f src/main/docker/mariadb.yml up -d
+```
+
+To stop it and remove the container, run:
+
+```
+docker-compose -f src/main/docker/mariadb.yml down
+```
+
+You can also fully dockerize your application and all the services that it depends on.
+To achieve this, first build a docker image of your app by running:
+
+```
+./gradlew bootJar -Pprod jibDockerBuild
+```
+
+Then run:
+
+```
+docker-compose -f src/main/docker/app.yml up -d
+```
+
+For more information refer to [Using Docker and Docker-Compose][], this page also contains information on the docker-compose sub-generator (`jhipster docker-compose`), which is able to generate docker configurations for one or several JHipster applications.
+
+## Continuous Integration (optional)
+
+To configure CI for your project, run the ci-cd sub-generator (`jhipster ci-cd`), this will let you generate configuration files for a number of Continuous Integration systems. Consult the [Setting up Continuous Integration][] page for more information.
+
+[jhipster homepage and latest documentation]: https://www.jhipster.tech
+[jhipster 7.8.1 archive]: https://www.jhipster.tech
+[using jhipster in development]: https://www.jhipster.tech/development/
+[service discovery and configuration with the jhipster-registry]: https://www.jhipster.tech/microservices-architecture/#jhipster-registry
+[using docker and docker-compose]: https://www.jhipster.tech/docker-compose
+[using jhipster in production]: https://www.jhipster.tech/production/
+[running tests page]: https://www.jhipster.tech/running-tests/
+[code quality page]: https://www.jhipster.tech/code-quality/
+[setting up continuous integration]: https://www.jhipster.tech/setting-up-ci/
+[node.js]: https://nodejs.org/
+[npm]: https://www.npmjs.com/

@@ -1,0 +1,33 @@
+{
+  "applications": "*",
+  "changelogDate": "20220407200436",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "products",
+  "fields": [
+    {
+      "fieldName": "id",
+      "fieldType": "UUID"
+    },
+    {
+      "fieldName": "title",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "category",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "price",
+      "fieldType": "Double"
+    }
+  ],
+  "fluentMethods": true,
+  "javadoc": "category можеть быть enum",
+  "jpaMetamodelFiltering": false,
+  "name": "Products",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "no"
+}
